@@ -39,7 +39,6 @@ namespace MyHotelListing.Controllers
             {
                 _logger.LogError($"somthing went wrong in the {nameof(GetCountries)}");
                 return StatusCode(500, "Intrnall server Error.plessa try agin Later.");
-                throw;
             }
         }
 

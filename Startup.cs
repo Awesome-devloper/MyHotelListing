@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using MyHotelListing.Configuration;
 using MyHotelListing.Data;
 using MyHotelListing.IRepository;
+using MyHotelListing.Services;
 
 namespace MyHotelListing
 {
@@ -27,6 +28,12 @@ namespace MyHotelListing
             services.AddDbContext<DatabaseContext>(option =>
             option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAuthentication();
+
+            services.ConfigureIdentity();
+
+            services.ConfigureJWT(Configuration);   
+
             // اجازه می دهد تمای متد ها هدر ها و ارجین هاا
             services.AddCors(o => o.AddPolicy("AllowAny", builder =>
                builder.AllowAnyOrigin()
@@ -38,6 +45,9 @@ namespace MyHotelListing
             services.AddTransient<IUnitOfWork, UnitOfWork>();// همیشه نیاز دارد هربار یک نمونه ازش را بسازیم
             //services.AddSingleton//فقط یک نمونه برای کل برنامه نیاز است
             //services.AddScoped  //نباز دارد یک نمونه از ان رابسازیم برای هر life time 
+            services.AddScoped<IAuthManager, AuthManager>();
+
+
 
             services.AddControllers().AddNewtonsoftJson(op => op.SerializerSettings.ReferenceLoopHandling =
             Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -66,6 +76,8 @@ namespace MyHotelListing
             app.UseCors("AllowAny");
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
