@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyHotelListing.Configuration;
 using MyHotelListing.Data;
+using MyHotelListing.IRepository;
 
 namespace MyHotelListing
 {
@@ -33,6 +34,13 @@ namespace MyHotelListing
                .AllowAnyHeader()));
 
             services.AddAutoMapper(typeof(Mapperinitilizaer));
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();// همیشه نیاز دارد هربار یک نمونه ازش را بسازیم
+            //services.AddSingleton//فقط یک نمونه برای کل برنامه نیاز است
+            //services.AddScoped  //نباز دارد یک نمونه از ان رابسازیم برای هر life time 
+
+            services.AddControllers().AddNewtonsoftJson(op => op.SerializerSettings.ReferenceLoopHandling =
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -63,6 +71,9 @@ namespace MyHotelListing
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name: "Defualt",
+                //    pattern: "{controler=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
         }
