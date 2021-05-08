@@ -22,7 +22,11 @@ namespace MyHotelListing.Moddels
 
         public int CountryId { get; set; }
     }
-    public class HotelDTO:CreateCountryDTO
+    public class UpdateHotelDTO: CreateHotelDTO
+    {
+        
+    }
+    public class HotelDTO: CreateHotelDTO
     {
         public int Id { get; set; }
         public Country Country { get; set; }

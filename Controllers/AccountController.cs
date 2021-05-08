@@ -77,6 +77,9 @@ namespace MyHotelListing.Controllers
 
         [HttpPost]
         [Route("login")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO userDTO)
         {
             _logger.LogInformation($"LoginDTO Attemp to {userDTO.Email}");
@@ -98,5 +101,6 @@ namespace MyHotelListing.Controllers
                 return Problem($"Something went Wrrong in {nameof(Login)}", statusCode: 500);
             }
         }
+
     }
 }
