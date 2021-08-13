@@ -16,6 +16,7 @@ namespace MyHotelListing.Data
         {
             base.OnModelCreating(_builder);
 
+
             _builder.ApplyConfiguration(new RoleConfiguration());
             #region می توان مثل بالا این ها ریز در قالب یک کلاس اضافه کنیم
 

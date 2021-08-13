@@ -25,8 +25,13 @@ namespace MyHotelListing
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DatabaseContext>(option =>
+            services.AddDbContextPool<DatabaseContext>(option =>
             option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IScopedService, MyScopedService>();
+
+            services.AddHostedService<backgroudTask>();
+            
 
             services.AddAuthentication();
 
